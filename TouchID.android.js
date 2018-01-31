@@ -7,6 +7,9 @@ export default {
     return new Promise((resolve, reject) => {
       NativeTouchID.isSupported(
         error => {
+          if (error === "LAErrorTouchIDNotEnrolled") {
+            return reject(new TouchIDError(error, ""));
+          }
           return reject(typeof error == 'String' ? createError(error, error) : createError(error));
         },
         success => {
